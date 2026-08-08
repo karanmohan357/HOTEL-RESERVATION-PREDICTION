@@ -1,0 +1,305 @@
+/* ============================================================
+   HOTEL RESERVATION PREDICTION — "THE GRAND FOLIO" THEME
+   A five-star hotel stationery aesthetic: onyx and brushed gold,
+   letterpress-style rules, and a check-in-card layout.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap');
+
+:root {
+  --bg-deep:        #14100d;
+  --bg-panel:       #1c1712;
+  --bg-field:       #221b15;
+  --gold:           #c9a961;
+  --gold-soft:      rgba(201, 169, 97, 0.35);
+  --gold-faint:     rgba(201, 169, 97, 0.14);
+  --gold-bright:    #e6cb87;
+  --ivory:          #f3ecdf;
+  --text-muted:     #a4967f;
+  --text-faint:     #6b5f4e;
+  --success:        #8fae7a;
+  --danger:         #a6543f;
+  --radius:         1px;
+  --font-display:   'Cormorant Garamond', serif;
+  --font-body:      'Jost', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 56px 20px;
+  font-family: var(--font-body);
+  font-weight: 300;
+  color: var(--ivory);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(201, 169, 97, 0.07), transparent 55%),
+    var(--bg-deep);
+  position: relative;
+}
+
+/* subtle linen/paper grain */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.4;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0px, transparent 1px, transparent 2px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.012) 0px, transparent 1px, transparent 2px);
+}
+
+/* ============================================================
+   MAIN PANEL — double-rule "frame within a frame" like fine
+   hotel stationery
+   ============================================================ */
+
+.container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 620px;
+  background: var(--bg-panel);
+  border: 1px solid var(--gold-soft);
+  border-radius: var(--radius);
+  padding: 52px 48px 44px;
+  box-shadow:
+    0 40px 90px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(0, 0, 0, 0.4);
+}
+
+.container::before {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  border: 1px solid var(--gold-faint);
+  pointer-events: none;
+}
+
+h2 {
+  position: relative;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 32px;
+  letter-spacing: 0.02em;
+  text-align: center;
+  color: var(--ivory);
+  margin: 0;
+}
+
+/* ornamental letterhead divider — the signature element */
+h2::after {
+  content: "";
+  display: block;
+  width: 120px;
+  height: 1px;
+  margin: 20px auto 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--gold) 15%,
+    var(--gold) 85%,
+    transparent
+  );
+}
+
+form::before {
+  content: "EST. GUEST INTELLIGENCE";
+  display: block;
+  grid-column: 1 / -1;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  color: var(--text-faint);
+  margin: 4px 0 8px;
+}
+
+/* ============================================================
+   FORM
+   ============================================================ */
+
+form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px 26px;
+  margin-top: 36px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+label {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+input,
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--ivory);
+  background: var(--bg-field);
+  border: 1px solid rgba(201, 169, 97, 0.22);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+select {
+  background-image: linear-gradient(45deg, transparent 50%, var(--gold) 50%),
+                     linear-gradient(135deg, var(--gold) 50%, transparent 50%);
+  background-position: calc(100% - 18px) center, calc(100% - 13px) center;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 34px;
+}
+
+select option {
+  background: #1c1712;
+  color: var(--ivory);
+}
+
+input::placeholder {
+  color: var(--text-faint);
+}
+
+input:hover,
+select:hover {
+  border-color: var(--gold-soft);
+}
+
+input:focus,
+select:focus {
+  border-color: var(--gold);
+  background: #26201a;
+  box-shadow: 0 0 0 3px var(--gold-faint);
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  opacity: 0.5;
+  filter: sepia(0.4) saturate(2);
+}
+
+/* ============================================================
+   BUTTON — brushed-gold key-card
+   ============================================================ */
+
+br {
+  display: none;
+}
+
+button {
+  grid-column: 1 / -1;
+  margin-top: 12px;
+  position: relative;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--bg-deep);
+  background: linear-gradient(180deg, var(--gold-bright), var(--gold));
+  border: none;
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  cursor: pointer;
+  transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.15s ease;
+  box-shadow: 0 10px 30px rgba(201, 169, 97, 0.18);
+}
+
+button:hover {
+  background: linear-gradient(180deg, #f0d99a, var(--gold-bright));
+  box-shadow: 0 14px 36px rgba(201, 169, 97, 0.28);
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* ============================================================
+   RESULT PANEL
+   ============================================================ */
+
+.result {
+  grid-column: 1 / -1;
+  margin-top: 30px;
+  padding: 20px 24px;
+  border-radius: var(--radius);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 18px;
+  text-align: center;
+  border-top: 1px solid var(--gold-soft);
+  border-bottom: 1px solid var(--gold-soft);
+  animation: result-in 0.5s ease;
+}
+
+.result p {
+  margin: 0;
+  color: var(--ivory);
+}
+
+@keyframes result-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 620px) {
+  .container {
+    padding: 40px 26px 34px;
+  }
+  form {
+    grid-template-columns: 1fr;
+  }
+  h2 {
+    font-size: 26px;
+  }
+}
+
+/* ============================================================
+   ACCESSIBILITY
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .result,
+  button {
+    animation: none;
+    transition: none;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
