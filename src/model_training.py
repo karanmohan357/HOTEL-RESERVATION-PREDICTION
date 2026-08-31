@@ -109,7 +109,7 @@ class ModelTraining:
       
     def run(self):
         try:
-            mlflow.set_tracking_uri("file:./mlruns")
+            mlflow.set_tracking_uri("sqlite:///mlflow.db")
             mlflow.set_experiment("Hotel_Booking_Cancellation_Prediction")
             with mlflow.start_run():
 
