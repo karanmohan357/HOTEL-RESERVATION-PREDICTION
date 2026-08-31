@@ -35,8 +35,7 @@ pipeline {
                     script {
                         echo 'Building and Pushing Docker Image to ECR.............'
                         sh '''
-                        mkdir -p ~/.aws
-                        cp $AWS_CRED_FILE ~/.aws/credentials
+                        export AWS_SHARED_CREDENTIALS_FILE=${AWS_CRED_FILE}
 
                         aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
                         docker build -t ${ECR_REPO}:latest .
@@ -52,8 +51,7 @@ pipeline {
                     script {
                         echo 'Deploy to AWS Lambda.............'
                         sh '''
-                        mkdir -p ~/.aws
-                        cp $AWS_CRED_FILE ~/.aws/credentials
+                        export AWS_SHARED_CREDENTIALS_FILE=${AWS_CRED_FILE}
 
                         aws lambda update-function-code \
                             --function-name ${LAMBDA_FUNCTION_NAME} \
