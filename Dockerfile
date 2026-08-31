@@ -1,7 +1,12 @@
+FROM public.ecr.aws/awsguru/aws-lambda-adapter:0.8.4 AS adapter
+
 FROM python:slim
 
-ENV PYTHONDONTWRITEBYTECODE = 1 \
-    PYTHONUNBUFFERED = 1
+COPY --from=adapter /lambda-adapter /opt/extensions/lambda-adapter
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PORT=5000
 
 WORKDIR /app
 
@@ -18,4 +23,4 @@ RUN python pipline/training_pipeline.py
 
 EXPOSE 5000
 
-CMD ["python" , "application.py"]
+CMD ["python", "application.py"]

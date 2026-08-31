@@ -4,7 +4,8 @@ pipeline {
         VENV_DIR = 'venv'
         AWS_ACCOUNT_ID = '985369018380'
         AWS_REGION = 'ap-south-1'
-        ECR_REPO = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/ml-project-1"
+        ECR_REPO = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/ml-project"
+        LAMBDA_FUNCTION_NAME = 'ml-project-1'
     }
     stages {
         stage('Cloning Github repo to Jenkins') {
@@ -36,6 +37,7 @@ pipeline {
                         sh '''
                         mkdir -p ~/.aws
                         cp $AWS_CRED_FILE ~/.aws/credentials
+
                         aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
                         docker build -t ${ECR_REPO}:latest .
                         docker push ${ECR_REPO}:latest
@@ -44,17 +46,22 @@ pipeline {
                 }
             }
         }
-        stage('Deploy to AWS App Runner') {
+        stage('Deploy to AWS Lambda') {
             steps {
                 withCredentials([file(credentialsId: 'aws-creds-file', variable: 'AWS_CRED_FILE')]) {
                     script {
-                        echo 'Deploy to AWS App Runner.............'
+                        echo 'Deploy to AWS Lambda.............'
                         sh '''
                         mkdir -p ~/.aws
                         cp $AWS_CRED_FILE ~/.aws/credentials
-                        aws apprunner update-service \
-                            --service-arn $(aws apprunner list-services --region ${AWS_REGION} --query "ServiceSummaryList[?ServiceName=='ml-project'].ServiceArn" --output text) \
-                            --source-configuration '{"ImageRepository":{"ImageIdentifier":"'"${ECR_REPO}"':latest","ImageRepositoryType":"ECR"}}' \
+
+                        aws lambda update-function-code \
+                            --function-name ${LAMBDA_FUNCTION_NAME} \
+                            --image-uri ${ECR_REPO}:latest \
+                            --region ${AWS_REGION}
+
+                        aws lambda wait function-updated \
+                            --function-name ${LAMBDA_FUNCTION_NAME} \
                             --region ${AWS_REGION}
                         '''
                     }
