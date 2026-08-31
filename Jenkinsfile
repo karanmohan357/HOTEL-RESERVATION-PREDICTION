@@ -5,7 +5,7 @@ pipeline {
         AWS_ACCOUNT_ID = '985369018380'
         AWS_REGION = 'ap-south-1'
         ECR_REPO = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/ml-project"
-        LAMBDA_FUNCTION_NAME = 'ml-project-1'
+        LAMBDA_FUNCTION_NAME = 'ml-project'
     }
     stages {
         stage('Cloning Github repo to Jenkins') {
@@ -25,6 +25,17 @@ pipeline {
                     . ${VENV_DIR}/bin/activate
                     pip install --upgrade pip
                     pip install -e .
+                    '''
+                }
+            }
+        }
+        stage('Model Training') {
+            steps {
+                script {
+                    echo 'Model Training............'
+                    sh '''
+                    . ${VENV_DIR}/bin/activate
+                    python pipeline/training_pipeline.py
                     '''
                 }
             }
