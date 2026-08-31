@@ -4,7 +4,6 @@ logs/
 mlartifacts/
 MLOps_Project_1.egg-info/
 mlflow.db
-artifacts/
 __pycache__/
 *.pyc
 notebook/train.csv
