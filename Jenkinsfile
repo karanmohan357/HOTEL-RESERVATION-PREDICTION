@@ -49,7 +49,7 @@ pipeline {
                         export AWS_SHARED_CREDENTIALS_FILE=${AWS_CRED_FILE}
 
                         aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
-                        docker build -t ${ECR_REPO}:latest .
+                        docker build --provenance=false --sbom=false -t ${ECR_REPO}:latest .
                         docker push ${ECR_REPO}:latest
                         '''
                     }
