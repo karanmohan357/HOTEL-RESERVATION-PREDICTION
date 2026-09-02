@@ -11,7 +11,7 @@ LIGHTGBM_PARAMS={
 RANDOM_SEARCH_PARAMS = {
     'n_iter': 10,
     'scoring': 'accuracy',
-    'cv': 5,
+    'cv': 1,
     'verbose': 2,
     'random_state': 42,
     'n_jobs': -1
